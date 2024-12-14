@@ -10,4 +10,6 @@ data class CalonDPR(
     val nama: String,
     val partai: String,
     val fotoUrl: String
+
+//    simpen key aja jangan ada attribute. Attribute lain bisa diambil menggunakan apui
 )
