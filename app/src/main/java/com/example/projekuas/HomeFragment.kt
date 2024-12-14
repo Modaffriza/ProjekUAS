@@ -8,10 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.projekuas.databinding.FragmentHomeBinding
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,6 +56,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+
         prefManager = PrefManager(requireContext())
         // Set up the logout button click listener using binding
         binding.btnLogout.setOnClickListener {
@@ -60,25 +67,45 @@ class HomeFragment : Fragment() {
             startActivity(Intent(requireContext(), LoginActivity::class.java))
             activity?.finish()
         }
-        setupRecyclerView()
-        fetchCalonDPR()
     }
     private fun setupRecyclerView() {
         binding.rvCalon.layoutManager = LinearLayoutManager(context)
+        val apiService = RetrofitInstance.api
+        apiService.getAllCalon().enqueue(object : Callback<List<CalonDPR>> {
+            override fun onResponse(
+                call: Call<List<CalonDPR>>,
+                response: Response<List<CalonDPR>>
+            ) {
+                Toast.makeText(binding.root.context, "a", Toast.LENGTH_SHORT).show()
+
+                val data =response.body()!!
+                val calonAdapter = CalonAdapter(data)
+                binding.rvCalon.apply {
+                  adapter =   calonAdapter
+                    layoutManager = LinearLayoutManager(binding.root.context)
+                }
+            }
+
+            override fun onFailure(call: Call<List<CalonDPR>>, t: Throwable) {
+            }
+
+        })
     }
 
-    private fun fetchCalonDPR() {
-        lifecycleScope.launch {
-            val response = RetrofitInstance.api.getAllCalon()
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    adapter = CalonAdapter(it)
-                    binding.rvCalon.adapter = adapter
-                }
 
-            }
+
+    private fun toggleFavorite(calon: CalonDPR) {
+        lifecycleScope.launch {
+            Toast.makeText(context, "${calon.nama} ditekan tombol favorit", Toast.LENGTH_SHORT).show()
+
+            // Get the CalonViewModel instance
+            val calonViewModel = ViewModelProvider(requireActivity()).get(CalonViewModel::class.java)
+
+            // Check if the candidate is already a favorite
+
         }
     }
+
 
     companion object {
         /**

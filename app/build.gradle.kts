@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.projekuas"
-        minSdk = 35 // Sesuaikan dengan kebutuhan
+        minSdk = 31 // Sesuaikan dengan kebutuhan
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -53,9 +53,9 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
-    implementation("androidx.room:room-runtime:2.5.0")
-    annotationProcessor("androidx.room:room-compiler:2.5.0")
-    implementation("androidx.room:room-ktx:2.5.0")
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

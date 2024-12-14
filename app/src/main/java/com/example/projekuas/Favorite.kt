@@ -1,17 +1,19 @@
 package com.example.projekuas
 
+import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "calon_dpr")
-data class CalonDPR(
+@Entity(tableName = "favorite")
+data class Favorite(
+
     @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
     val id: Int = 0,
 
     @SerializedName("_id")
-    val _id: String,
+    val pid: String,
 
     @SerializedName("nama")
     val nama: String,
@@ -22,4 +24,3 @@ data class CalonDPR(
     @SerializedName("fotoUrl")
     val fotoUrl: String
 )
-
